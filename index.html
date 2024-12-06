@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Game Hộp Quà</title>
+
+    <style>
+
+
+
+        body {
+
+
+
+            display: flex;
+
+
+
+            justify-content: center;
+
+
+
+            align-items: center;
+
+
+
+            height: 100vh;
+
+
+
+            margin: 0;
+
+
+
+            font-family: Arial, sans-serif;
+
+
+
+            background-image: url('https://i.pinimg.com/736x/b3/57/48/b35748803a89973917f4788906986d56.jpg');
+
+
+
+            background-size: cover;
+
+
+
+            background-position: center;
+
+
+
+            background-repeat: no-repeat;
+
+
+
+        }
+
+
+
+        #game-container {
+
+
+
+            display: none; /* Mặc định ẩn để hiện hướng dẫn trước */
+
+
+
+            flex-wrap: wrap;
+
+
+
+            gap: 20px;
+
+
+
+            justify-content: center;
+
+
+
+            align-items: center;
+
+
+
+            position: relative;
+
+
+
+            width: 80%;
+
+
+
+            height: 80%;
+
+
+
+        }
+
+
+
+        .gift-box {
+
+
+
+            width: 100px;
+
+
+
+            height: 100px;
+
+
+
+            border-radius: 10px;
+
+
+
+            overflow: hidden;
+
+
+
+            cursor: pointer;
+
+
+
+            display: flex;
+
+
+
+            justify-content: center;
+
+
+
+            align-items: center;
+
+
+
+            transition: transform 0.5s, opacity 0.5s;
+
+
+
+            border: none;
+
+
+
+            background-color: rgba(255, 255, 255, 0.7);
+
+
+
+        }
+
+
+
+        .gift-box img {
+
+
+
+            width: 100%;
+
+
+
+            height: 100%;
+
+
+
+            object-fit: cover;
+
+
+
+        }
+
+
+
+        .gift-box:hover {
+
+
+
+            animation: shake 0.5s ease-in-out;
+
+
+
+        }
+
+ 
+
+
+
+        @keyframes shake {
+
+
+
+            0% { transform: translateX(0); }
+
+
+
+            25% { transform: translateX(-10px); }
+
+
+
+            50% { transform: translateX(10px); }
+
+
+
+            75% { transform: translateX(-10px); }
+
+
+
+            100% { transform: translateX(0); }
+
+        }
+
+
+
+          #mute-button {
+
+             position: fixed;
+
+            top: 10px;
+
+            right: 10px;
+
+            padding: 10px 20px;
+
+            background-color: pink;
+
+            border: none;
+
+            border-radius: 5px;
+
+            color: white;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            transition: background-color 0.3s;
+
+}
+
+
+
+#mute-button:hover {
+
+    background-color: lightcoral;
+
+}
+
+
+
+        #letters-container {
+
+
+
+            display: none;
+
+
+
+            flex-wrap: wrap;
+
+
+
+            gap: 10px;
+
+
+
+            justify-content: center;
+
+
+
+            align-items: center;
+
+
+
+            position: fixed;
+
+
+
+            top: 50%;
+
+
+
+            left: 50%;
+
+
+
+            transform: translate(-50%, -50%);
+
+
+
+            width: 70%;
+
+
+
+            z-index: 10;
+
+
+
+        }
+
+
+
+        .letter {
+
+
+
+            width: 100px;
+
+
+
+            height: 140px;
+
+
+
+            background-color: white;
+
+
+
+            border-radius: 10px;
+
+
+
+            cursor: pointer;
+
+
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+
+
+
+            display: flex;
+
+
+
+            justify-content: center;
+
+
+
+            align-items: center;
+
+
+
+            font-weight: bold;
+
+
+
+            font-size: 18px;
+
+
+
+            transition: transform 0.3s ease, background-color 0.3s;
+
+
+
+        }
+
+        .letter:hover {
+
+
+
+            transform: scale(1.2);
+
+
+
+            background-color: #f0f0f0;
+
+
+
+        }
+
+
+
+        #message {
+
+    display: none;
+
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    color: white;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+
+    font-size: 24px;
+
+    z-index: 10;
+
+    background-color: #F9BBBC;
+
+    max-width: 90%; /* Giới hạn độ rộng tối đa */
+
+    width: fit-content; /* Độ rộng tự động theo nội dung */
+
+    height: auto; /* Chiều cao tự động theo nội dung */
+
+}
+
+        #back-button {
+
+
+
+            display: none;
+
+
+
+            position: fixed;
+
+
+
+            top: 10px;
+
+
+
+            left: 50%;
+
+
+
+            transform: translate(-50%, 0);
+
+
+
+            padding: 10px 20px;
+
+
+
+            background-color: pink;
+
+
+
+            border: none;
+
+
+
+            border-radius: 5px;
+
+
+
+            color: white;
+
+
+
+            font-size: 18px;
+
+
+
+            cursor: pointer;
+
+
+
+            transition: background-color 0.3s;
+
+
+
+        }
+
+        #back-button:hover {
+
+
+
+            background-color: lightcoral;
+
+
+
+        }
+
+        #instructions {
+
+
+
+            position: fixed;
+
+
+
+            top: 50%;
+
+
+
+            left: 50%;
+
+
+
+            transform: translate(-50%, -50%);
+
+
+
+            width: 400px;
+
+
+
+            background-color: rgba(255, 255, 255, 0.9);
+
+
+
+            border-radius: 10px;
+
+
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+
+
+
+            padding: 20px;
+
+
+
+            text-align: center;
+
+
+
+            z-index: 20;
+
+
+
+        }
+
+        #instructions-content {
+
+
+
+            display: flex;
+
+
+
+            flex-direction: column;
+
+
+
+            align-items: center;
+
+
+
+        }
+
+        #instructions h2 {
+
+
+
+            margin-bottom: 15px;
+
+
+
+        }
+
+        #instructions button {
+
+
+
+            margin-top: 15px;
+
+
+
+            padding: 10px 20px;
+
+
+
+            background-color: pink;
+
+
+
+            border: none;
+
+
+
+            border-radius: 5px;
+
+
+
+            color: white;
+
+
+
+            cursor: pointer;
+
+
+
+            transition: background-color 0.3s;
+
+
+
+        }
+
+
+
+        #instructions button:hover {
+
+
+
+            background-color: lightcoral;
+
+
+
+        }
+
+
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <audio id="background-music" src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" loop></audio>
+
+
+
+    <div id="instructions">
+
+        <div id="instructions-content">
+
+            <h2>Hướng dẫn chơi game</h2>
+
+            <p>1. Nhấp vào một hộp cảm xúc để mở lá thư.</p>
+
+            <p>2. Nhấp vào lá thư để mở và xem thông điệp.</p>
+
+            <p>3. Nhấn vào nút "Quay lại" để quay về màn hình chính.</p>
+
+            <button onclick="closeInstructions()">Đóng</button>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="game-container">
+
+        <div class="gift-box" onclick="showLetters(1); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/01-angry-1024.png" alt="Hộp quà 1">
+
+        </div>
+
+        <div class="gift-box" onclick="showLetters(2); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/23-smile-512.png" alt="Hộp quà 2">
+
+        </div>
+
+        <div class="gift-box" onclick="showLetters(3); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/24-cry-1024.png" alt="Hộp quà 3">
+
+        </div>
+
+        <div class="gift-box" onclick="showLetters(4); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/26-anxious-1024.png" alt="Hộp quà 4">
+
+        </div>
+
+        <div class="gift-box" onclick="showLetters(5); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/33-tired-1024.png" alt="Hộp quà 5">
+
+        </div>
+
+        <div class="gift-box" onclick="showLetters(6); shakeBox(this)">
+
+            <img src="https://cdn4.iconfinder.com/data/icons/emoji-66/64/12-wondering-1024.png" alt="Hộp quà 6">
+
+        </div>
+
+    </div>
+
+
+
+    <div id="letters-container"></div>
+
+    <div id="message"></div>
+
+    <button id="back-button" onclick="goBack()">Quay lại</button>
+
+    <button id="mute-button" onclick="toggleMute()">🔊</button>
+
+
+
+    <script>
+
+        const giftMessages = {
+
+            1: ['Hít thở sâu theo kỹ thuật 4-7-8<br>Cách thực hiện:<br>Hít vào trong 4 giây, giữ hơi thở trong 7 giây, sau đó thở ra từ từ trong 8 giây.<br>Hiệu quả:<br>Làm dịu hệ thần kinh, giúp giảm phản ứng tức thời của cơn giận.','Đếm từ 1 đến 10 hoặc ngược lại<br>Cách thực hiện:<br>Tạm ngừng mọi hành động và đếm chậm rãi trong đầu từ 1 đến 10 hoặc ngược lại.<br>Hiệu quả:<br>Cho phép não bộ có thời gian cân nhắc trước khi hành động.','Thực hiện bài tập căng cơ và thả lỏng (Progressive Muscle Relaxation)<br>Cách thực hiện:<br>Căng chặt các cơ ở bàn tay, vai, hoặc chân trong 5 giây, sau đó thả lỏng. Lặp lại 3-5 lần.<br>Hiệu quả:<br>Giảm căng thẳng cơ thể, hỗ trợ kiểm soát cơn giận.','Viết xuống cảm xúc của bạn<br>Cách thực hiện:<br>Sử dụng một mẩu giấy để ghi ra lý do khiến bạn tức giận và cách bạn có thể giải quyết.<br>Hiệu quả:<br>Giúp bạn nhận thức rõ nguyên nhân và tìm giải pháp thay vì phản ứng tức thời.','Nhắm mắt và tưởng tượng khung cảnh yên bình<br>Cách thực hiện:<br>Nhắm mắt và hình dung bạn đang ở một nơi thư giãn như bãi biển, rừng, hoặc công viên.<br>Hiệu quả:<br>Kỹ thuật hình dung tích cực giúp xoa dịu cảm xúc và tạo trạng thái bình tĩnh.','Đi bộ chậm rãi một mình<br>Cách thực hiện:<br>Đi ra ngoài (nếu được) hoặc đi bộ quanh lớp học, tập trung vào từng bước đi.<br>Hiệu quả:<br>Giúp bạn giải phóng năng lượng tiêu cực và bình tĩnh lại.','Chuyển sự chú ý sang việc khác<br>Cách thực hiện:<br>Tìm một bài tập dễ như vẽ nguệch ngoạc hoặc sắp xếp đồ đạc để phân tán cơn giận.<br>Hiệu quả:<br>Giúp não bộ thoát khỏi vòng lặp cảm xúc tiêu cực.','Lặp lại lời tự nhủ tích cực<br>Cách thực hiện:<br>Nói thầm trong đầu: “Mình có thể kiểm soát cơn giận” hoặc “Mọi chuyện sẽ qua.”<br>Hiệu quả:<br>Tự khẳng định tích cực giúp giảm cảm giác mất kiểm soát.','Nghĩ về hậu quả của hành động tức giận<br>Cách thực hiện:<br>Tạm dừng và tự hỏi:“Nếu mình nổi giận, điều gì sẽ xảy ra?”<br>Hiệu quả:<br>Giúp bạn cân nhắc kỹ trước khi phản ứng, hạn chế hành vi bốc đồng.','Uống một ngụm nước<br>Cách thực hiện:<br>Uống chậm một ngụm nước, cảm nhận cảm giác khi nước trôi xuống cổ họng.<br>Hiệu quả:<br>Hành động đơn giản này giúp bạn làm chậm nhịp độ và trấn an bản thân.','Nghĩ lại một kỷ niệm vui vẻ<br>Cách thực hiện:<br>Hồi tưởng lại một khoảnh khắc bạn cười thật sảng khoái hoặc cảm thấy hạnh phúc.<br>Hiệu quả:<br>Chuyển đổi trạng thái tâm lý từ tiêu cực sang tích cực.','Viết hoặc vẽ một vòng tròn và chia nhỏ vấn đề<br>Cách thực hiện:<br>Viết vấn đề chính vào giữa vòng tròn và các yếu tố liên quan xung quanh.<br>Hiệu quả:<br>Giúp bạn nhận thức rằng nguyên nhân có thể nhỏ hơn bạn tưởng.','Sử dụng câu hỏi để phân tích cảm xúc<br>Cách thực hiện:<br>Hỏi bản thân:“Tại sao mình cảm thấy như vậy? Điều này có đáng để tức giận không?”<br>Hiệu quả:<br>Hỗ trợ bạn tư duy logic thay vì phản ứng theo cảm xúc.','Tìm góc yên tĩnh để thư giãn<br>Cách thực hiện:<br>Tìm một góc không ai làm phiền, ngồi xuống và thả lỏng cơ thể.<br>Hiệu quả:<br>Giảm kích thích từ môi trường, giúp bạn bình tĩnh nhanh hơn.','Tưởng tượng bạn đang xem chính mình từ góc nhìn bên ngoài<br>Cách thực hiện:<br>Hình dung bạn là một nhân vật trong phim, quan sát bản thân và tình huống từ góc độ khách quan.<br>Hiệu quả:<br>Cách này giúp bạn giảm căng thẳng và xử lý tình huống tốt hơn.','Lặp lại động tác vỗ nhẹ vào tay hoặc vai<br>Cách thực hiện:<br>Vỗ nhẹ vào cánh tay hoặc vai theo nhịp đều đặn.<br>Hiệu quả:<br>Tạo cảm giác trấn an, giúp bạn kiểm soát bản thân.','Nhớ rằng cơn giận là tạm thời<br>Cách thực hiện:<br>Tự nhủ: “Cảm xúc này chỉ là tạm thời và sẽ qua đi.”<br>Hiệu quả:<br>Giảm mức độ nghiêm trọng của cảm giác tức giận.','Vẽ một vòng tròn và chia nó thành 10 phần<br>Cách thực hiện:<br>Tô màu từng phần của vòng tròn khi bạn hít thở sâu, cảm nhận cơn giận tan biến dần.<br>Hiệu quả:<br>Kỹ thuật này kết hợp giữa sáng tạo và hơi thở để làm dịu tâm trạng.','Dùng các từ tích cực để đặt tên cho cảm xúc<br>Cách thực hiện:<br>Thay vì gọi đó là “tức giận,” hãy mô tả là “mình đang cảm thấy căng thẳng.”<br>Hiệu quả:<br>Thay đổi ngôn ngữ giúp bạn kiểm soát và giảm mức độ tiêu cực.','Nghe nhạc thư giãn hoặc bài hát yêu thích<br>Cách thực hiện:<br>Chọn một bài nhạc nhẹ nhàng (nhạc không lời, âm thanh thiên nhiên) hoặc bài hát bạn yêu thích để nghe.<br>Hiệu quả:<br>Nhạc có thể điều chỉnh trạng thái cảm xúc, giúp làm dịu cơn tức giận.','Sử dụng ứng dụng hướng dẫn thiền hoặc hít thở<br>Ứng dụng gợi ý: Calm, Headspace, hoặc Insight Timer.<br>Cách thực hiện:<br>Chọn một bài thiền ngắn (2-5 phút) để hít thở và thư giãn,<br>Hiệu quả:<br>Thiền và hít thở có hướng dẫn giúp bạn nhanh chóng kiểm soát cảm xúc.','Ghi chú hoặc nhật ký cảm xúc<br>Cách thực hiện:<br>Mở ứng dụng ghi chú (Google Keep, Notion, hoặc Evernote) và viết xuống lý do bạn tức giận.<br>Hiệu quả:<br>Ghi chú giúp bạn giải tỏa cảm xúc một cách an toàn và không làm tổn thương người khác.','Xem video ngắn về sự hài hước hoặc thư giãn<br>Cách thực hiện:<br>Xem các video ngắn hài hước, thú cưng, hoặc hoạt hình thư giãn trên YouTube hoặc TikTok.<br>Hiệu quả:<br>Tiếng cười và hình ảnh đáng yêu kích thích hormone hạnh phúc, làm giảm cơn giận','Dùng ứng dụng đếm nhịp thở<br>Ứng dụng gợi ý: Breathe+ hoặc Prana Breath.<br>Cách thực hiện:<br>Thực hiện bài tập hít thở với ứng dụng trong 1-2 phút, tập trung vào hướng dẫn.<br>Hiệu quả:<br>Điều chỉnh hơi thở giúp làm dịu hệ thần kinh và giảm kích thích từ cơn tức.','Chơi trò chơi nhẹ nhàng để phân tán sự chú ý<br>Gợi ý trò chơi:Zen Koi, Flow Free, hoặc Candy Crush.<br>Cách thực hiện:<br>Dành 3-5 phút chơi các trò chơi thư giãn, không đòi hỏi tư duy quá nhiều.<br>Hiệu quả:<br>Giúp chuyển hướng suy nghĩ, làm dịu cảm xúc tiêu cực.','Xem lại ảnh kỷ niệm vui trên điện thoại<br>Cách thực hiện:<br>Mở thư viện ảnh và xem những kỷ niệm đẹp, khoảnh khắc vui vẻ cùng gia đình hoặc bạn bè.<br>Hiệu quả:<br>Nhắc nhở bạn về những điều tích cực, giúp cải thiện tâm trạng.','Gọi điện hoặc nhắn tin với người bạn tin tưởng<br>Cách thực hiện:<br>Nhắn tin hoặc gọi điện cho một người bạn thân, người thân để chia sẻ cảm xúc.<br>Hiệu quả:<br>Giao tiếp xã hội tích cực giúp giải tỏa và điều chỉnh cảm xúc.','Sử dụng ứng dụng tạo danh sách tích cực (Gratitude App)<br>Cách thực hiện:<br>Ghi lại 3 điều bạn cảm thấy biết ơn hoặc vui vẻ ngay lúc đó.<br>Hiệu quả:<br>Thực hành lòng biết ơn làm giảm mức độ tức giận và căng thẳng.','Ghi âm cảm xúc của bạn<br>Cách thực hiện:<br>Mở ứng dụng ghi âm và nói ra cảm giác tức giận của bạn. Nghe lại nếu cần.<br>Hiệu quả:<br>Ghi âm cho phép bạn giải tỏa mà không làm tổn thương người khác.','Lập danh sách những điều bạn sẽ làm sau khi bình tĩnh<br>Cách thực hiện:<br>Mở ghi chú và liệt kê những việc bạn muốn làm khi cơn giận qua đi.<br>Hiệu quả:<br>Chuyển sự tập trung sang hành động tích cực thay vì cảm xúc tiêu cực.','Tìm kiếm các bài học ngắn về quản lý cảm xúc<br>Cách thực hiện:<br>Xem các bài học nhanh về kiểm soát cơn tức giận trên YouTube hoặc ứng dụng học tập như Khan Academy.<br>Hiệu quả:<br>Hiểu biết thêm kiến thức giúp bạn điều chỉnh cảm xúc tốt hơn.','Làm ngược lại: Thay vì đối đầu, hãy thử làm ngược lại. Đừng rút lui mà hãy phát huy khả năng thấu cảm. Đó là hãy cố gắng nghĩ về những gì người khác cảm nhận, suy nghĩ bởi những gì diễn ra trong cuộc sống của họ sẽ góp phần tạo ra hành vi của họ. Từ đó bạn sẽ có thể khuếch tán các cơn giận dữ, làm giảm mức độ “bốc hỏa”.','Tự giải tỏa lo lắng và tức giận bằng những hành động như chích nổ bong bóng, xé giấy hay đánh vào gối…','Đi ngủ sẽ là cách giải quyết đơn giản và hiệu quả cho những cảm xúc tức giận, khi đó bạn sẽ tránh được những hành động tiếc nuối','Cần phải biết nói không và biết chấp nhận khi bị nói không'],
+
+            2: ['Thực hiện một hành động tử tế nhỏ<br>Cách thực hiện:<br>Dùng niềm vui của bạn để làm một điều tử tế, như viết lời động viên, giúp đỡ ai đó, hoặc tạo ra một bất ngờ dễ thương cho bạn bè.<br>Lợi ích:<br>Nghiên cứu từ Đại học California cho thấy hành động tử tế không chỉ lan tỏa niềm vui mà còn củng cố hạnh phúc của người thực hiện.<br>Gợi ý:<br>Điều tử tế không cần quá phức tạp. Một lời cảm ơn chân thành hoặc một món quà tự làm cũng đủ để chia sẻ niềm vui.','Tạo ra một “hộp kỷ niệm” để tặng người khác<br>Cách thực hiện:<br>Thu thập những vật phẩm nhỏ gợi nhớ về niềm vui của bạn (ví dụ: một lá thư, ảnh chụp, hoặc đồ lưu niệm).<br>Gói chúng thành một món quà và tặng cho một người đặc biệt với lời nhắn: *“Niềm vui này làm mình nhớ đến bạn!<br>Lợi ích:<br>Nghiên cứu về lòng biết ơn của nhà tâm lý học Robert Emmons cho thấy việc chia sẻ những thứ tích cực giúp người tặng lẫn người nhận cảm thấy gắn kết hơn.<br>Gợi ý:<br>Bạn có thể đặt tên cho hộp này, ví dụ như “Hộp niềm vui” hoặc “Kho báu ký ức”.','Chia sẻ câu chuyện với bạn bè hoặc người thân<br>Cách thực hiện:<br>Tổ chức một buổi trò chuyện thân mật (trực tiếp hoặc qua thư tay) để kể về những khoảnh khắc vui vẻ của bạn.<br>Hỏi họ về những niềm vui gần đây để cả hai cùng chia sẻ và đồng cảm.<br>Lợi ích:<br>Nghiên cứu từ Harvard cho thấy việc chia sẻ niềm vui với người khác giúp tăng cảm giác gắn kết và sự hài lòng trong mối quan hệ.<br>Gợi ý:<br>Hãy chọn người bạn tin tưởng và thoải mái khi chia sẻ để tạo môi trường an toàn về cảm xúc.','Ghi nhật ký cảm xúc với “Thư gửi tương lai”<br>Cách thực hiện:<br>Viết một bức thư miêu tả niềm vui bạn đang cảm nhận và lý do vì sao nó đặc biệt.<br>Gửi thư cho bản thân trong tương lai hoặc người thân yêu qua một lá thư vật lý hoặc giữ nó trong nhật ký.<br>Lợi ích:<br>Theo nhà tâm lý học Sonja Lyubomirsky, việc viết về niềm vui giúp tăng cường khả năng lưu giữ cảm xúc tích cực lâu dài.<br>Gợi ý:<br>Đọc lại bức thư sau một khoảng thời gian hoặc chia sẻ nó với một người bạn để tăng thêm sự kết nối.','Vẽ tranh hoặc tạo một tác phẩm nghệ thuật<br>Cách thực hiện:<br>Dùng bút chì, màu nước, hoặc bất kỳ phương tiện nào bạn thích để minh họa những điều khiến bạn vui.<br>Tập trung vào cảm xúc bạn muốn truyền tải: màu sắc tươi sáng, hình ảnh tích cực, hoặc các ký hiệu mang ý nghĩa cá nhân.<br>Lợi ích:<br>Theo nghiên cứu của Hiệp hội Tâm lý Mỹ (APA), sáng tạo nghệ thuật giúp tăng cường cảm giác hạnh phúc và kết nối cảm xúc.<br>Gợi ý:<br>Bạn có thể tặng bức tranh này cho bạn bè hoặc người thân để chia sẻ cảm xúc tích cực của mình.','Chọn một “biểu tượng giảm tốc” (Slow-down Symbol)<br>Mang theo một vật nhỏ (chẳng hạn như viên đá, cục tẩy) mà bạn có thể cầm để nhắc nhở bản thân rằng không cần phải vội vàng hoặc làm mọi thứ ngay lập tức.','Thực hành bài tập “10 giây quan sát”<br>Khi bạn cảm thấy quá vui, hãy dừng lại, nhắm mắt, và quan sát cảm giác của cơ thể trong 10 giây. Điều này giúp bạn nhận thức rõ hơn và tránh hành động hấp tấp.','Thực hiện bài tập “Giãn thời gian”<br>Khi hứng khởi với một ý tưởng, hãy dành 5-10 phút để thư giãn (đi bộ, ngồi yên lặng) trước khi đưa ra quyết định.','Tự hỏi “Điều này có quan trọng trong 1 tuần tới không?”<br>Trước khi quyết định hành động, hỏi bản thân xem điều bạn muốn làm hiện tại có ảnh hưởng lớn trong tương lai hay chỉ là cảm xúc thoáng qua.','Trước khi bước ra khỏi giường, hãy cho bản thân 02 phút để cảm nhận cơ thể','Thử thách trồng giá đỗ thành công và nấu 01 tô mì thưởng thức thôi nào.,','Nhìn chăm chú vào tán cây và suy nghĩ vì sao nó lại đang sống và mát rượi đến vậy?','Viết xuống điều mà hôm nay em cảm thấy có ý nghĩa với bản thân','Hãy ôm thân thiện một người bạn của em và nhắm mặt lại, cm nhận họ nhé','Viết xuống ba điêu mà em cảm thấy vui vẻ và thuận lợi trong ngày','Thử thách kết bạn với một người bạn mới của em','Tưởng tượng 3 điều thuộc về phiên bản tốt nhất của em ở 3 năm tới và ghi xuống nhé.','Thử một món ăn/thức uống mà mình chưa từng thử bao giờ và cảm nhận điều vừa làm','Nói cho 01 người bạn nghe về một điểm mạnh của họ -Đừng quên kèm theo lời khen đến người bạn đó','Ôm lấy 01 vật kỉ niệm của ai đó tặng và nhớ lại khoảnh khắc ấy nào','Gấp 01 chú hạc giấy gửi viết bên trong một lời khen gửi đến một người bạn của em và đón chờ phản ứng của họ','Thử thách dọn dẹp bàn học của mình và tân trang nó theo 01 phong cách mới.','Sưu tầm một câu truyện cười và kể lại cho người khác nghe','Thách đặt điện thoại xuống trong 3h và xem bạn đã làm được gì trong khoảng thời gian đó','Tự thưởng cho mình 01 đồ dùng học tập mà em thích'],
+
+            3: ['Hít thở theo nhịp 4-4-4-4 (Box Breathing)<br>Cách thực hiện:<br>Hít vào trong 4 giây, giữ hơi trong 4 giây, thở ra trong 4 giây, và nghỉ 4 giây trước khi lặp lại.<br>Hiệu quả:<br>Kỹ thuật này giúp làm dịu hệ thần kinh, giảm cảm giác căng thẳng, và cải thiện tâm trạng.','Ăn kẹo nhỏ vị ngọt hoặc vị bạc hà<br>Cách thực hiện:<br>Nhai một viên kẹo nhỏ (như kẹo bạc hà hoặc trái cây). Hương vị ngọt có thể kích thích hormone serotonin, giúp cải thiện tâm trạng.<br>Hiệu quả:<br>Theo nghiên cứu, vị ngọt kích thích cảm giác thoải mái và dễ chịu.','Viết nhanh 3 điều bạn biết ơn<br>Cách thực hiện:<br>Viết ra 3 điều khiến bạn biết ơn hoặc cảm thấy hài lòng ngay lúc đó.<br>Hiệu quả:<br>Theo nhà tâm lý học Robert Emmons, thực hành lòng biết ơn giúp cải thiện cảm giác hạnh phúc và giảm buồn phiền.','5. Kéo căng cơ trong 30 giây<br>Cách thực hiện:<br>Duỗi thẳng tay lên cao, nghiêng người sang trái và phải, rồi thả lỏng cơ thể.<br>Hiệu quả:<br>Kéo căng cơ giúp giảm căng thẳng tích tụ trong cơ thể, cải thiện tâm trạng.','Đi bộ ngắn trong lớp hoặc ngoài hành lang<br>Cách thực hiện:<br>Đi lại một cách chậm rãi trong vài phút, chú ý đến từng bước chân.<br>Hiệu quả:<br>Hoạt động này kích thích cơ thể tiết ra endorphin, giúp cải thiện tâm trạng.','Hình dung về nơi yêu thích (Visualization)<br>Cách thực hiện:<br>Nhắm mắt và tưởng tượng bạn đang ở một nơi khiến bạn cảm thấy an yên (biển, núi, công viên).<br>Hiệu quả:<br>Hình dung tích cực giúp giảm cảm giác buồn bã và tạo sự thư giãn.','Nghe âm thanh tự nhiên trong trí tưởng tượng<br>Cách thực hiện:<br>Tưởng tượng âm thanh nước chảy, gió thổi hoặc chim hót.<br>Hiệu quả:<br>Nghiên cứu cho thấy âm thanh tự nhiên giúp giảm căng thẳng và cải thiện tâm trạng.','Vẽ nguệch ngoạc trên giấy<br>Cách thực hiện:<br>Vẽ bất kỳ thứ gì bạn thích trên giấy để giải tỏa cảm xúc.<br>Hiệu quả:<br>Hoạt động sáng tạo giúp xoa dịu tâm trí.','Uống một ít nước<br>Cách thực hiện:<br>Uống từng ngụm nước nhỏ để làm dịu cơ thể.<br>Hiệu quả:<br>Mất nước nhẹ có thể làm tăng cảm giác buồn bã, vì vậy uống nước sẽ giúp cải thiện.','Hít ngửi mùi dễ chịu<br>Cách thực hiện:<br>Nếu có thể, ngửi một mùi bạn yêu thích như bạc hà, cam, hoặc hoa khô.<br>Hiệu quả:<br>Mùi hương có thể kích thích não giải phóng dopamine, cải thiện tâm trạng.','Tự nhủ lời động viên bản thân<br>Cách thực hiện:<br>Lặp lại các câu như: “Mọi thứ sẽ ổn thôi” hoặc “Mình làm tốt rồi.”<br>Hiệu quả:<br>Lời tự khẳng định tích cực giúp giảm cảm giác buồn bã và tăng tự tin.','Thử bài tập viết tay không dùng mục tiêu<br>Cách thực hiện:<br>Viết bất kỳ điều gì xuất hiện trong đầu, không cần cấu trúc hoặc mục tiêu cụ thể.<br>Hiệu quả:<br>Giải tỏa cảm xúc tiêu cực thông qua viết tay.','Sử dụng các câu chuyện vui hoặc hài hước<br>Cách thực hiện:<br>Nghĩ lại một câu chuyện hài hước đã từng xảy ra hoặc tưởng tượng tình huống vui vẻ.<br>Hiệu quả:<br>Hài hước kích thích endorphin, giúp bạn cảm thấy tốt hơn.','Đổi góc nhìn về tình huống<br>Cách thực hiện:<br>Tự hỏi:“Tình huống này có thật sự nghiêm trọng không?” hoặc “Mình sẽ cảm thấy sao về nó sau 1 tuần?”<br>Hiệu quả:<br>Kỹ thuật nhận thức này giúp bạn nhìn nhận vấn đề nhẹ nhàng hơn.','Dành thời gian cho việc sắp xếp lại và làm mới không gian học tập.','Dành thời gian cho việc ngắm nhìn hoặc chơi với các loài cây cảnh hoặc thú cưng của bạn.','Viết nhật ký hoặc blog để chia sẻ cảm xúc của bạn.','Chơi trò chơi xếp hình, lego, cờ vua, cờ tướng,.. hoặc chơi board game','Phơi nắng 20-30 phút vào buổi sáng sớm.','Hãy nấu một bữa ăn ngon cho một người bạn hoặc gia đình.','Viết thư tay cho một người bạn thân.','Xem các video trên YouTube về chủ đề bạn quan tâm.','Tạo một danh sách phát nhạc mới.','Làm một món đồ thủ công gì đó như: trang sức, dụng cụ học tập,...','Khóc thật to.','Suy ngẫm về những thử thách trong quá khứ mà bạn đã vượt qua và cách bạn trưởng thành từ chúng.','Lên kế hoạch cho một ngày tự chăm sóc bản thân với các hoạt động khiến bạn cảm thấy thoải mái.','Tìm hiểu về một địa điểm du lịch hoặc văn hóa mà bạn muốn khám phá trong tương lai.','Soi gương và tự mỉm cười với bản thân mình.','Đi thả diều vào buổi chiều cuối tuần.','Đọc một cuốn sách mới.','Lên kế hoạch cho một ngày tự chăm sóc bản thân với các hoạt động khiến bạn cảm thấy thoải mái.'],
+
+            4: ['Kỹ thuật hít thở sâu (Deep Breathing)<br>Cách thực hiện:<br>Hít vào chậm bằng mũi trong 4 giây (tưởng tượng bụng bạn như quả bóng đang phồng lên).<br>Giữ hơi thở trong 4 giây.Thở ra chậm qua miệng trong 6 giây (tưởng tượng bạn đang thổi nến).<br>Lặp lại 5–10 lần.<br>Tác dụng: Kỹ thuật này giúp làm chậm nhịp tim, giảm căng thẳng và làm dịu tâm trí.', 'Sử dụng kỹ thuật "5-4-3-2-1" để kết nối với thực tại.<br>Cách thực hiện: Tập trung vào giác quan của bạn để trấn tĩnh bản thân.<br>Nhìn: Kể tên 5 thứ bạn thấy xung quanh.<br>Chạm: Cảm nhận 4 thứ bạn có thể chạm vào (bàn, quần áo, sách vở, v.v.).<br>Nghe: Chú ý 3 âm thanh bạn nghe được (tiếng bước chân, tiếng quạt, tiếng nói chuyện).<br>Ngửi: Nhận ra 2 mùi xung quanh (nếu có, như mùi sách, mùi đồ ăn).<br>Nếm: Cảm nhận vị của thứ gì đó, ví dụ như nước bọt hoặc đồ ăn nếu có.', 'Sử dụng kẹo hoặc đồ ăn nhẹ<br>Tác dụng: Nhai hoặc ngậm một viên kẹo giúp chuyển hướng sự chú ý và kích thích giác quan, giúp bạn bình tĩnh hơn.<br>Lưu ý: Chọn loại kẹo ngọt nhẹ, có mùi hương dịu như bạc hà hoặc trái cây. Nếu trường không cho phép kẹo, hãy thử ngậm nước hoặc nhai nhẹ nhàng gì đó hợp lệ (như nhai miếng bút chì mềm).','Tạo tín hiệu trấn tĩnh cho bản thân<br>Ví dụ: Dùng ngón cái và ngón trỏ nhấn nhẹ vào nhau, hoặc đặt tay lên ngực. Nhắc bản thân trong đầu:"Mọi chuyện sẽ ổn thôi.","Cảm giác này chỉ là tạm thời."<br>Tác dụng: Đưa ra tín hiệu an ủi để não bộ hiểu rằng không có mối nguy hiểm thực sự.','Viết hoặc vẽ nguệch ngoạc<br>Nếu có sẵn giấy bút: Hãy viết ra cảm giác của mình hoặc vẽ bất cứ thứ gì bạn nghĩ ra.<br>Tác dụng: Việc này giúp bạn giải phóng cảm xúc ra ngoài thay vì giữ lại bên trong.','Kết nối với bạn bè hoặc người thân qua ngôn ngữ cơ thể<br>Nếu bạn có bạn bè hoặc người thân quen bên cạnh, hãy nhìn họ, cười nhẹ, hoặc ra hiệu xin sự hỗ trợ.<br>Tác dụng: Sự hiện diện của người khác giúp bạn cảm thấy được an ủi.','Nghĩ đến điều bạn sẽ làm sau đó<br>Hãy tưởng tượng bạn sẽ làm gì khi ra khỏi trạng thái này. Ví dụ: "Mình sẽ ra ngoài, ăn món yêu thích" hoặc "Mình sẽ viết nhật ký tối nay."<br>Tác dụng: Tạo cảm giác có mục tiêu, giúp bạn hướng tới tương lai tích cực hơn.','Tập trung vào nhịp tay (Grounding với nhịp tay)<br>Cách thực hiện:<br>Nắm tay trái thành nắm đấm nhẹ, sau đó mở ra.<br>Chuyển sang tay phải, làm tương tự.<br>Tăng tốc độ lên dần, như thể bạn đang chơi nhịp điệu.<br>Lặp lại khoảng 1–2 phút, sau đó quay lại tốc độ chậm.<br>Tác dụng: Chuyển sự tập trung từ trạng thái hoảng loạn sang cảm giác vật lý, giúp bạn cảm thấy kiểm soát hơn.','Nhìn chằm chằm vào một vật cụ thể (Focal Object Technique)<br>Cách thực hiện:<br>Chọn một vật xung quanh bạn, ví dụ như bút, cặp sách hoặc cửa sổ.<br>Nhìn kỹ từng chi tiết của nó: màu sắc, hình dáng, kích thước, kết cấu.<br>Hãy tưởng tượng bạn phải mô tả nó cho một người chưa từng thấy trước đó.<br>Tác dụng: Kéo bạn ra khỏi vòng lặp suy nghĩ tiêu cực và tập trung vào hiện tại.','Kỹ thuật co giãn cơ (Progressive Muscle Relaxation)<br>Cách thực hiện:<br>Siết chặt hai bàn tay trong 5 giây, sau đó thả lỏng.<br>Tiếp tục siết cơ bắp tay, vai, chân... mỗi lần siết giữ 5 giây rồi thả lỏng.<br>Hoàn thành toàn bộ cơ thể trong 1–2 phút.<br>Tác dụng: Giảm căng thẳng trong cơ thể, khiến tâm trí bớt tập trung vào sự lo lắng.','Kỹ thuật "Viết trong đầu" (Mental Writing Technique)<br>Cách thực hiện:<br>Hãy tưởng tượng một bảng trắng trong đầu.<br>"Viết" một từ đơn giản lên bảng, ví dụ như từ "bình tĩnh".<br>Tập trung vào việc viết từ này trong đầu từng nét một, sau đó tưởng tượng bạn xóa nó đi.<br>Tác dụng: Giúp tâm trí bận rộn với một hoạt động có trật tự, từ đó giảm sự hỗn loạn bên trong.','Tự mát-xa tay (Hand Massage)<br>Cách thực hiện:<br>Dùng ngón cái của tay này xoa nhẹ lên lòng bàn tay kia.<br>Tập trung vào cảm giác trơn mượt hoặc áp lực nhẹ trên tay bạn.<br>Sau 1–2 phút, đổi tay và tiếp tục.<br>Tác dụng: Cử chỉ nhẹ nhàng này không chỉ giúp bạn thư giãn mà còn kích thích hệ thần kinh giao cảm, làm dịu cảm giác lo âu.','Hình dung nơi yên bình (Guided Imagery)<br>Cách thực hiện:<br>Nhắm mắt lại (nếu không bị ai chú ý).<br>Tưởng tượng bạn đang ở nơi yêu thích như bãi biển, công viên, hoặc góc phòng riêng.<br>Tưởng tượng rõ từng chi tiết: gió thổi, tiếng chim, ánh sáng, cảm giác dưới chân bạn.<br>Tác dụng: Hình dung giúp bạn "thoát khỏi" tình huống hiện tại và đưa tâm trí vào trạng thái thư thái','Lặp lại câu nói tích cực (Positive Affirmations)<br>Cách thực hiện:<br>Thầm nhắc mình một câu như:"Mọi chuyện sẽ ổn thôi.","Mình kiểm soát được tình huống này.","Đây chỉ là cảm giác tạm thời."<br>Lặp đi lặp lại 5–10 lần, tập trung vào giọng điệu bình tĩnh.<br>Tác dụng: Những lời nhắc này giúp bạn trấn an chính mình, xây dựng niềm tin tích cực hơn.','Cách đi bộ chậm (Mindful Walking)<br>Cách thực hiện:<br>Đi bộ chậm rãi và chú ý đến từng bước chân.<br>Cảm nhận lòng bàn chân tiếp xúc với mặt đất.<br>Kết hợp hít thở sâu khi bước.<br>Tác dụng: Sự chú ý vào chuyển động cơ thể sẽ làm dịu tâm trí và giảm căng thẳng.','Kỹ thuật nhấm nháp nước (Sipping Water Technique)<br>Cách thực hiện:<br>Uống một ngụm nước nhỏ từ chai hoặc cốc.<br>Tập trung vào cảm giác nước chạm vào môi, chảy qua cổ họng.<br>Tác dụng: Tạo cảm giác làm mới cơ thể, giúp não bộ tập trung vào điều đơn giản hơn.','Thực hiện các hoạt động như tô màu, vẽ tranh bất kì, không quan trọng đẹp xấu, quan trọng là quá trình khám phá, trải nghiệm của bạn.','Làm một món đồ trang trí đơn giản hoặc vẽ bó hoa tặng chính mình.','Đan móc len/ Thêu tranh/Lắp ghép mô hình,... Những hoạt động yêu cầu sự tập trung cao giúp bạn phân tán sự chú ý vào những nồi sợ.','Làm một đồ uống yêu thích để không phải tập trung vào việc suy nghĩ về những nỗi sợ.','Ôm gấu bông.','Thực hiện kỹ thuật Tự do cảm xúc - EFT.','Đồ chơi giúp thư giãn: Thú nhồi bông Squishmallows.','Nằm/ngồi trên bãi cỏ ở công viên và quan sát cây, cảnh vật xung quanh.'],
+
+            5: ['Sử dụng ứng dụng thiền và thư giãn (như Headspace, Calm)<br>Cách thực hiện:<br>Mở ứng dụng và chọn các bài thiền ngắn (5-10 phút) giúp thư giãn tâm trí.<br>Tập trung vào hơi thở và các âm thanh nhẹ nhàng để giải tỏa căng thẳng.<br>Hiệu quả:<br>Các ứng dụng này cung cấp các bài tập thư giãn được các chuyên gia tâm lý phát triển, giúp bạn giảm lo âu và cảm giác buồn chán.','Nghe podcast về tâm lý học hoặc tự phát triển (như The Happiness Lab, Therapy Chat)<br>Cách thực hiện:<br>Tìm các podcast chuyên sâu về tâm lý học, phát triển bản thân hoặc quản lý cảm xúc.<br>Nghe các podcast này trong khi đi bộ hoặc thư giãn để tạo không gian tĩnh tâm và giúp bạn thay đổi góc nhìn.<br>Hiệu quả:<br>Các podcast này cung cấp những thông tin hữu ích giúp bạn cải thiện khả năng xử lý cảm xúc và phát triển kỹ năng kiểm soát bản thân.','Thực hành “Cảm ơn” bằng ứng dụng nhắc nhở (như Gratitude Journal)<br>Cách thực hiện:<br>Mở ứng dụng và viết ra 3 điều mà bạn cảm thấy biết ơn trong ngày, dù là nhỏ.<br>Đây có thể là những khoảnh khắc tích cực, hành động tử tế từ người khác, hoặc thành tựu nhỏ mà bạn đạt được.<br>Hiệu quả:<br>Việc ghi nhận lòng biết ơn giúp bạn thay đổi tâm trạng, giảm cảm giác tiêu cực và giúp bạn tập trung vào những điều tích cực trong cuộc sống.','Thiết lập các mục tiêu nhỏ và theo dõi tiến độ với ứng dụng (như Todoist, Trello)<br>Cách thực hiện:<br>Sử dụng các ứng dụng quản lý công việc để thiết lập mục tiêu nhỏ và dễ thực hiện.<br>Chia nhỏ mục tiêu để bạn có thể hoàn thành từng bước một, giúp giảm cảm giác chán nản.<br>Hiệu quả:<br>Các ứng dụng này giúp bạn theo dõi tiến độ và tạo ra sự hài lòng khi hoàn thành từng công việc nhỏ, từ đó cải thiện cảm giác tự tin và động lực.',' Sử dụng ứng dụng hỗ trợ tập trung và giảm căng thẳng (như Pomodoro, Focus Booster)<br>Cách thực hiện:<br>Dùng các ứng dụng Pomodoro để chia thời gian làm việc thành các khoảng thời gian ngắn (25 phút), sau đó nghỉ ngắn (5 phút).<br>Tập trung vào một công việc trong mỗi khoảng thời gian Pomodoro, giúp giảm cảm giác choáng ngợp và buồn chán.<br>Các ứng dụng Pomodoro giúp bạn duy trì sự tập trung và tránh cảm giác chán nản khi phải làm một việc quá lâu.','Xem các video truyền cảm hứng (như TED Talks, YouTube)<br>Cách thực hiện:<br>Tìm kiếm các video hoặc bài giảng về cách quản lý cảm xúc, phát triển bản thân hoặc những câu chuyện truyền cảm hứng.<br>Xem các video này khi bạn cảm thấy buồn chán để làm mới tâm trạng và động lực.<br>Hiệu quả:<br>Những video này cung cấp nguồn động lực, giúp bạn thay đổi suy nghĩ và cải thiện tâm trạng.','Sử dụng ứng dụng nhắc nhở hành động tử tế (như Kindness Reminder)<br>Cách thực hiện:<br>Cài đặt các nhắc nhở trên điện thoại để làm một việc tử tế nhỏ mỗi ngày, như khen ngợi ai đó, hoặc giúp đỡ một người bạn.<br>Hiệu quả:<br>Việc thực hiện hành động tử tế giúp nâng cao cảm giác hạnh phúc và sự thỏa mãn cá nhân, giảm cảm giác buồn chán.','Ghi âm suy nghĩ của bạn và nghe lại (dùng Voice Memo)<br>Cách thực hiện:<br>Sử dụng tính năng ghi âm trên điện thoại để ghi lại suy nghĩ của bạn khi cảm thấy phân vân hoặc buồn chán.<br>Nghe lại sau vài giờ hoặc ngày hôm sau để giúp bạn xử lý cảm xúc từ một góc nhìn mới.<br>Hiệu quả:<br>Ghi âm suy nghĩ giúp bạn ra ngoài cảm xúc hiện tại, phân tích và tìm ra giải pháp cho vấn đề.','Dùng các ứng dụng hỗ trợ thở sâu (như Breethe, Calm)<br>Cách thực hiện:<br>Sử dụng các ứng dụng này để thực hành các bài tập thở sâu hoặc thiền ngắn giúp thư giãn và làm dịu cảm xúc.<br>Hiệu quả:<br>Các ứng dụng này cung cấp các bài tập đã được nghiên cứu để giảm căng thẳng, giúp tâm trí bạn trở nên tỉnh táo và thư giãn hơn.'],
+
+            6: ['Thực hành “Hít thở 4-7-8” để bình tĩnh<br>Cách thực hiện:<br>Hít vào bằng mũi trong 4 giây.<br>Giữ hơi thở trong 7 giây.<br>Thở ra từ từ qua miệng trong 8 giây. Lặp lại 3-5 lần.<br>Hiệu quả:<br>Giúp bạn lấy lại sự bình tĩnh và tăng khả năng ra quyết định hợp lý.','Tự hỏi 3 câu “Cốt lõi”<br>Cách thực hiện:<br>Khi phân vân, tự hỏi:<br>1. “Mình thực sự muốn gì trong tình huống này?”<br>2. “Quyết định của mình có làm tổn thương giá trị cá nhân không?”<br>3. “Điều tệ nhất có thể xảy ra là gì, và mình có thể chấp nhận được không?”<br>Hiệu quả:<br>Những câu hỏi này giúp bạn hiểu rõ mong muốn và giảm áp lực từ bên ngoài.','Tập nói câu “để mình nghĩ đã”<br>Cách thực hiện:<br>Khi nhận yêu cầu, thay vì trả lời ngay, bạn nói:“Để mình suy nghĩ thêm nhé.” hay “Mình sẽ trả lời bạn sau.”<br>Hiệu quả:<br>Tạo thời gian để bạn phân tích cảm xúc thay vì trả lời vội vàng.','Áp dụng kỹ thuật “Khung giới hạn”<br>Cách thực hiện:<br>Viết ra một câu từ chối ngắn gọn như:“Mình không thể cho mượn vì đây là bài cá nhân.” hay “Mình rất tiếc, nhưng mình không thể giúp lần này.” <br>Thực hành câu này trước gương vài lần.<br>Hiệu quả:<br>Giúp bạn tăng sự tự tin khi từ chối mà không cảm thấy tội lỗi.','Nghĩ đến “lợi ích lâu dài” thay vì cảm xúc hiện tại<br>Cách thực hiện:<br>Tưởng tượng nếu bạn đáp ứng yêu cầu, bạn sẽ cảm thấy như thế nào trong vài ngày tới?<br>Tưởng tượng nếu bạn từ chối, bạn sẽ bảo vệ được giá trị gì của bản thân?<br>Hiệu quả:<br>Giúp bạn tập trung vào mục tiêu lớn hơn thay vì chỉ muốn làm hài lòng người khác.','Ghi nhật ký cảm xúc nhanh<br>Cách thực hiện:<br>Ghi ngắn gọn vào một mẩu giấy hoặc sổ:<br>“Mình đang cảm thấy phân vân vì…”<br>“Mình thực sự muốn…”<br>Hiệu quả:<br>Giải tỏa cảm xúc và giúp bạn đưa ra quyết định sáng suốt hơn.','Ngậm kẹo chanh” để đánh lạc hướng cảm xúc<br>Cách thực hiện:<br>Ngậm một viên kẹo chanh hoặc hương vị mạnh để kích thích giác quan. Tập trung vào cảm giác của vị chua.<br>Hiệu quả:<br>Giúp bạn tạm thoát khỏi cảm xúc phân vân và làm dịu tâm trí.','Tưởng tượng “Tấm khiên bảo vệ giá trị”<br>Cách thực hiện:<br>Nhắm mắt và tưởng tượng bạn có một tấm khiên bảo vệ những giá trị quan trọng của mình (như sự công bằng, tự trọng).<br>Khi quyết định, hãy hình dung tấm khiên đang bảo vệ bạn khỏi cảm giác tội lỗi.<br>Hiệu quả:<br>Tăng cường khả năng giữ vững lập trường mà không lo lắng làm người khác không vui.','Tập “giảm bớt câu xin lỗi”<br>Cách thực hiện:<br>Khi từ chối, thay vì nói “Xin lỗi mình không thể,” hãy nói:<br>“Mình không thể giúp lần này.”<br>“Cảm ơn bạn đã hỏi, nhưng mình có lý do cá nhân.”<br>Hiệu quả:<br>Loại bỏ câu xin lỗi không cần thiết giúp bạn tự tin hơn khi từ chối.','Tự nhắc “Mình không thể làm hài lòng tất cả”<br>Cách thực hiện:<br>Khi cảm thấy áp lực, lặp lại câu này trong đầu:<br>“Mình không thể làm hài lòng tất cả mọi người, và điều đó không sao cả.”<br>Hiệu quả:<br>Câu này giúp bạn giảm áp lực tâm lý từ việc muốn chiều lòng người khác.','Sử dụng ứng dụng ghi chú để lập danh sách ưu tiên<br>Cách thực hiện:<br>Mở ứng dụng ghi chú (hoặc giấy dán ảo).<br>Ghi lại:<br>Lý do mình muốn đồng ý?<br>Lý do mình không muốn đồng ý?<br>Quyết định nào sẽ bảo vệ giá trị của mình?<br>Hiệu quả:<br>Giúp bạn cân nhắc tình huống một cách rõ ràng, giảm cảm xúc bối rối.','Nghe một bản nhạc thư giãn hoặc bài tập dẫn thiền<br>Cách thực hiện:<br>Tìm trên Spotify, YouTube hoặc ứng dụng thiền như *Calm*, *Headspace* một bản nhạc thư giãn hoặc bài thiền 5 phút.<br>Hiệu quả:<br>Âm thanh thư giãn giúp bạn giảm căng thẳng và dễ đưa ra quyết định sáng suốt hơn.','Gửi tin nhắn “tạm hoãn”<br>Cách thực hiện:<br>Soạn một tin nhắn đơn giản:<br>“Mình cần thêm thời gian để suy nghĩ, mình sẽ trả lời bạn sau nhé!”<br>Gửi tin nhắn này thay vì trả lời ngay lập tức khi bạn chưa sẵn sàng.<br>Hiệu quả:<br>Tạo khoảng cách để bạn có thời gian xử lý cảm xúc mà không chịu áp lực từ đối phương.','Ghi âm hoặc quay video tự nói chuyện với bản thân<br>Cách thực hiện:<br>Sử dụng máy ghi âm hoặc camera. Tự đặt câu hỏi:<br>Tại sao mình lại cảm thấy phân vân?<br>Mình thực sự muốn gì?<br>Nếu từ chối, hậu quả có tệ như mình nghĩ không?<br>Sau đó nghe lại hoặc xem video.<br>Hiệu quả:<br>Việc nói ra giúp bạn sắp xếp suy nghĩ và thấu hiểu cảm xúc sâu sắc hơn.','Tìm kiếm hoặc đọc bài viết tạo động lực<br>Cách thực hiện:<br>Tìm trên Google hoặc Pinterest những bài viết, trích dẫn về việc thiết lập ranh giới cá nhân.<br>Ví dụ:“Từ chối người khác không có nghĩa là bạn xấu đi. Đó là cách bạn bảo vệ giá trị của mình.”<br>Hiệu quả:<br>Trích dẫn tích cực giúp bạn củng cố niềm tin vào quyết định của mình.','Tham khảo ý kiến từ bạn bè qua tin nhắn<br>Cách thực hiện:<br>Nhắn tin cho một người bạn tin tưởng:<br>“Mình đang phân vân về tình huống này… bạn nghĩ sao?”<br>Hiệu quả:<br>Ý kiến từ một người ngoài cuộc có thể giúp bạn nhìn nhận tình huống khách quan hơn.','ặt hẹn giờ trước khi đưa ra quyết định<br>Cách thực hiện:<br>Dùng ứng dụng đồng hồ để đặt hẹn giờ 10-15 phút. Trong thời gian này, bạn không nghĩ đến yêu cầu mà chỉ tập trung hít thở hoặc làm việc khác.<br>Hiệu quả:<br>Việc trì hoãn ra quyết định giúp bạn giảm cảm giác áp lực tức thời.','Tìm “người hỗ trợ tinh thần” online<br>Cách thực hiện:<br>Tìm các diễn đàn hoặc nhóm hỗ trợ tâm lý trên Facebook, Reddit để chia sẻ tình huống của mình.<br>Hiệu quả:<br>Nhận lời khuyên từ cộng đồng có thể giúp bạn cảm thấy được đồng cảm và mạnh mẽ hơn khi đối mặt.','Dành vài phút nói chuyện với bản thân về cảm xúc hiện tại']
+
+     
+
+        };
+
+
+
+        window.onload = function () {
+
+            const backgroundMusic = document.getElementById('background-music');
+
+            backgroundMusic.play().catch(() => console.log("Nhạc nền sẽ phát khi người dùng tương tác."));
+
+        };
+
+
+
+        function showLetters(giftNumber) {
+
+    const container = document.getElementById('game-container');
+
+    const lettersContainer = document.getElementById('letters-container');
+
+    const backButton = document.getElementById('back-button');
+
+
+
+    // Ẩn tất cả các hộp quà
+
+    document.querySelectorAll('.gift-box').forEach(box => {
+
+        box.style.display = 'none';
+
+    });
+
+
+
+    lettersContainer.style.display = 'flex';
+
+    lettersContainer.innerHTML = '';
+
+    backButton.style.display = 'block';
+
+
+
+    const messages = giftMessages[giftNumber];
+
+    
+
+    // Chọn ngẫu nhiên 3 thông điệp từ danh sách
+
+    const randomMessages = getRandomMessages(messages, 10);
+
+
+
+    randomMessages.forEach((message, index) => {
+
+        const letter = document.createElement('div');
+
+        letter.classList.add('letter');
+
+        letter.textContent = `Lá thư ${index + 1}`;
+
+        letter.onclick = () => {
+
+            letter.style.display = 'none';
+
+            showMessage(message);
+
+        };
+
+        lettersContainer.appendChild(letter);
+
+    });
+
+}
+
+function getRandomMessages(messages, count) {
+
+    const shuffled = [...messages].sort(() => Math.random() - 0.5); // Trộn ngẫu nhiên mảng
+
+    return shuffled.slice(0, count); // Lấy `count` phần tử đầu tiên
+
+}
+
+
+
+        function showMessage(messageContent) {
+
+            const lettersContainer = document.getElementById('letters-container');
+
+            const message = document.getElementById('message');
+
+
+
+            lettersContainer.style.display = 'none';
+
+            message.textContent = messageContent;
+
+            message.style.display = 'block';
+
+        }
+
+
+
+        function goBack() {
+
+            const message = document.getElementById('message');
+
+            const lettersContainer = document.getElementById('letters-container');
+
+            const backButton = document.getElementById('back-button');
+
+
+
+            message.style.display = 'none';
+
+            lettersContainer.style.display = 'none';
+
+            backButton.style.display = 'none';
+
+
+
+            document.querySelectorAll('.gift-box').forEach(box => {
+
+                box.style.display = 'block';
+
+            });
+
+        }
+
+
+
+        function closeInstructions() {
+
+            document.getElementById('instructions').style.display = 'none';
+
+            document.getElementById('game-container').style.display = 'flex';
+
+        }
+
+
+
+        function shakeBox(box) {
+
+            box.style.transform = 'scale(1.1)';
+
+            setTimeout(() => {
+
+                box.style.transform = 'scale(1)';
+
+            }, 300);
+
+        }
+
+function showMessage(messageContent) {
+
+    const lettersContainer = document.getElementById('letters-container');
+
+    const message = document.getElementById('message');
+
+
+
+    lettersContainer.style.display = 'none';
+
+    message.innerHTML = messageContent; // Sử dụng innerHTML để xử lý thẻ HTML
+
+    message.style.display = 'block';
+
+}
+
+        function toggleMute() {
+
+            const backgroundMusic = document.getElementById('background-music');
+
+            const muteButton = document.getElementById('mute-button');
+
+
+
+            if (backgroundMusic.muted) {
+
+                backgroundMusic.muted = false;
+
+                muteButton.textContent = "🔊";
+
+            } else {
+
+                backgroundMusic.muted = true;
+
+                muteButton.textContent = "🔇";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
